@@ -1,0 +1,78 @@
+<%- include ('../partials/_header') %>
+    <nav class="navbar navbar-dark bg-dark justify-content-between">
+        <%if(user.administrador==1){%>
+            <div>
+                <a href="/src/routes/dashboard"><h6>Ir a Dashboard</h6></a>
+            </div>
+        <%}else{%>
+            <div></div>
+        <%}%>
+        <div>
+            <h6><%=user.email%></h6>
+            <a href="/src/routes/logout">Logout</a>
+        </div>
+    </nav>
+    <div class="mt-3 ml-3">
+        <h1>Menu estacionamiento</h1>
+        <h2>Sección 1</h2>
+        <div class="continer-md mt-3 ml-1">
+            <div class="row screen d-flex justify-content-between align ">
+                <%for(var i=0; i < data.length; i++){%>
+                    <%if(data[i].status == 0){%>
+                        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                            <div class="card-header"></div>
+                            <div class="card-body">
+                                <h4 class="card-title">Lugar <%=data[i].idLugar%></h4>
+                                <p class="card-text">Desocupado</p>
+                                <%if(lugarApartado.usuarioReserva == 0){%>
+                                    <form action="/src/routes/apartarLugar" method="POST">
+                                        <div class="form-group">
+                                            <input type="hidden" name="key" class="form-control" value="<%= data[i].key%>">
+                                            <input type="hidden" name="idLugar" class="form-control" value="<%= data[i].idLugar%>">
+                                            <input type="hidden" name="idSeccion" class="form-control" value="<%= data[i].idSeccion%>">
+                                            <input type="hidden" name="lugarSeccion" class="form-control" value="<%= data[i].lugarSeccion%>">
+                                            <input type="hidden" name="status" class="form-control" value="<%= data[i].status%>">
+                                        </div>
+                                        <button type="submit" class="btn btn-secondary">
+                                            Apartar
+                                        </button>
+                                    </form>
+                                <%}%>
+                            </div>
+                        </div>
+                    <%}else if(data[i].status == 1){%>
+                        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                            <div class="card-header"></div>
+                            <div class="card-body">
+                                <h4 class="card-title">Lugar <%=data[i].idLugar%></h4>
+                                <p class="card-text">Ocupado</p>
+                            </div>
+                        </div>
+                    <%}else if(data[i].status == 2){%>
+                        <div class="card text-white bg-warning  mb-3" style="max-width: 20rem;">
+                            <div class="card-header"></div>
+                            <div class="card-body">
+                                <h4 class="card-title">Lugar <%=data[i].idLugar%></h4>
+                                <p class="card-text">Apartado</p>
+                                <%if(lugarApartado.idLugar==data[i].key){%>
+                                    <form action="/src/routes/desapartarLugar" method="POST">
+                                        <div class="form-group">
+                                            <input type="hidden" name="key" class="form-control" value="<%= data[i].key%>">
+                                            <input type="hidden" name="idLugar" class="form-control" value="<%= data[i].idLugar%>">
+                                            <input type="hidden" name="idSeccion" class="form-control" value="<%= data[i].idSeccion%>">
+                                            <input type="hidden" name="lugarSeccion" class="form-control" value="<%= data[i].lugarSeccion%>">
+                                            <input type="hidden" name="status" class="form-control" value="<%= data[i].status%>">
+                                        </div>
+                                        <button type="submit" class="btn btn-secondary">
+                                            Desapartar
+                                        </button>
+                                    </form>
+                                <%}%>
+                            </div>
+                        </div>
+                    <%}%>
+                <%}%>
+            </div>
+        </div>
+    </div>
+<%- include ('../partials/_footer') %>

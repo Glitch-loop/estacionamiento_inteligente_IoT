@@ -1,0 +1,202 @@
+<%- include ('../partials/_header') %>
+<nav class="navbar navbar-dark bg-dark justify-content-between">
+    <div>
+        <a href="/src/routes/">
+            <h6>Volver a estacionamiento</h6>
+        </a>
+    </div>
+    <div>
+        <h6><%=user.email%></h6>
+        <a href="/src/routes/logout">Logout</a>
+    </div>
+</nav>
+<div class="container mt-3">
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Número de usuarios registrados:</h4>
+                    <h4 class="card-text"><%=data.numeroUsuario%></h4>                
+                </div>
+            </div>            
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Reservacinones vigentes:</h4>
+                    <h4 class="card-text"><%=data.numeroReservacion%></h4>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Promedio de tiempo de lugar ocupado:</h4>
+                    <h4 class="card-text"><%=data.promedioLugarOcupado%> seg</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Capacidad usada del estacionamiento (ocupado/reservado)</h4>
+                    <h4 class="card-text"><%=data.capacidadUsada%>%</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center mt-5"></div>
+
+    <div class="row align-items-center mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4>Tipo de expiración de reservaciones </h4>
+            </div>
+            <div class="card-body">
+                <canvas id="tipoExpiracion" ></canvas>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-8"></div>
+                    <div class="col-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Lugares mas reservados</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="lugaresMasReservados" ></canvas>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-8"></div>
+                    <div class="col-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Historial de estacionamiento</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="historialLugares" ></canvas>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-8"></div>
+                    <div class="col-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <button id="renderBtn" class="btn btn-primary mt-3" onclick="getChartDat()">Graficar</button> -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    let dataChar = null;
+
+    function renderChart(result) {
+        console.log(result.data)
+        if (dataChar != null) {
+            dataChar.destroy();
+        }
+
+        const ctx = document.getElementById('tipoExpiracion').getContext('2d');
+        dataChar = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: result.data.graficoLabel1,
+                datasets: [{
+                    label: 'Grafico 1',
+                    data: result.data.graficoData1,
+                    backgroundColor: ['#FFE1A8', '#E26D5C', '#723D46'],
+                    fill: false,
+                    lineTension: 0,
+                    pointRadius: 1,
+                    pointHoverRadius: 10,
+                    pointHitRadius: 30,
+                    pointBorderWidth: 1,
+                    borderColor: 'rgba(230, 45, 87, 0.7)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        })
+
+        const ctx2 = document.getElementById('lugaresMasReservados').getContext('2d');
+        dataChar = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: result.data.graficoLabel2,
+                datasets: [{
+                    label: 'Reservaciones',
+                    data: result.data.graficoData2,
+                    backgroundColor: '#E26D5C',
+                    fill: false,
+                    lineTension: 0,
+                    pointRadius: 1,
+                    pointHoverRadius: 10,
+                    pointHitRadius: 30,
+                    pointBorderWidth: 1,
+                    borderColor: 'rgba(230, 45, 87, 0.7)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        })
+        
+        const ctx3 = document.getElementById('historialLugares').getContext('2d');
+        dataChar = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: result.data.graficoLabel3,
+                datasets: [{
+                    label: 'Personas que se estacionaron',
+                    data: result.data.graficoData3,
+                    backgroundColor: 'transparent',
+                    fill: false,
+                    lineTension: 0,
+                    pointRadius: 1,
+                    pointHoverRadius: 10,
+                    pointHitRadius: 30,
+                    pointBorderWidth: 1,
+                    borderColor: 'rgba(230, 45, 87, 0.7)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        })
+    }
+
+    window.onload = function getChartDat() {
+         $.ajax({
+            url: 'http://localhost:3000/src/routes/obtenerData',
+            success: function (result) {
+                // var labels = result.label;
+                // var data = result.info;
+                renderChart(result);
+            },
+
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>
+
+<%- include ('../partials/_footer') %>

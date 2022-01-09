@@ -1,0 +1,26 @@
+<%- include ('../partials/_header') %>
+    <div class="col-md-6 offseet-md-3 mt-3">
+        <div><a href="/">Volver</a></div>
+        <div class="card">
+            <div class="card-head mt-3 ml-3">
+                <h4>Registrate y ya no te molestes por buscar estacionamiento</h4>
+            </div>
+            <div class="card-body">
+                <form action="/src/routes/signUp" method="POST">
+                    <div class="form-grop">
+                            <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="form-grop mt-2">
+                            <input type="text" class="form-control" name="email" placeholder="E-mail" required>
+                    </div>
+                    <div class="form-grop mt-2">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">
+                        Registrarse
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+<%- include ('../partials/_footer') %>

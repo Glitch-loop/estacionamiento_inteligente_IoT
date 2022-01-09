@@ -1,0 +1,41 @@
+<%- include ('partials/_header') %>
+    <div class="ml-3 mt-3">
+        <h1>Bienvenido</h1>
+    </div>
+    <div>
+        <!-- <a href="/src/routes/dashboard"><h6>Dashboard</h6></a> -->
+        <!-- Borrar al finalizar desarrollo -->
+    </div>
+    <div class="col-md-6 offseet-md-3 mt-3">
+        <div class="card">
+            <div class="card-head mt-3 ml-3">
+                <h4>Pon tus datos para ingresar</h4>
+            </div>
+            <div class="card-body">
+                <form action="/src/routes/signIn" method="POST">
+                    <div class="form-grop">
+                            <input type="text" class="form-control" name="email" placeholder="E-mail">
+                    </div>
+                    <div class="form-grop mt-2">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">
+                        Sign In
+                    </button>
+                </form>
+            </div>
+        </div>
+        <%if(data == 1){%>
+            <div class="card mt-3">
+                <h4>El correo o la contraseña son incorrectos</h4>     
+            </div>
+            <%} else if (data == 2){%>
+            <div class="card mt-3">
+                <h4>Has sido registrado exitosamente, disfruta de la aplicación</h4>     
+            </div>
+        <%}%>
+        <div class="ml-9">
+            <a href="/src/routes/signUp">Sign Up</a>
+        </div>
+    </div>
+<%- include ('partials/_footer') %>

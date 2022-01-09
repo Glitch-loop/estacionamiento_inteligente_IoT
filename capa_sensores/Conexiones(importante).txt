@@ -1,0 +1,10 @@
+En el archivo "conexionFirebase.ino", esta configurado para el PRIMER
+y SEGUNDO sensor del estacionamiento, este archivo es para la Node de ADRIÁN
+ID de sensores
+1 - -MpIA0Gt_nB6HirP6i7X
+2 - -MpIA0Gt_nB6HirP6i8X
+
+En el archivo "conexionFirebase2.ino", esta configurado para el TERCER
+y CUARTO sensor del estacionamiento, este archivo es para la Node de RENET
+3 - -MpIA0Gt_nB6HirP6i9X
+4 - -MpIA0Gt_nB6HirP6i9Xy
