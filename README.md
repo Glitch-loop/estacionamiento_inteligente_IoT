@@ -27,11 +27,12 @@ que por cierto se utilizo la tarjeta Node MCU 8266, para realizaar el proyecto.
 -El tiempo de duración para una reservacion es de 10s
     
 -Puede haber 3 posible casos para que una reservación expire:
-    1. El usuario llego al lugar de la reservación (0)
 
-    2. El usuario cancelo la reservación (1)
+1. El usuario llego al lugar de la reservación (0)
 
-    3. Se vencio su reservación (2)
+2. El usuario cancelo la reservación (1)
+
+3. Se vencio su reservación (2)
     
 -Se corre un proceso hijo con un "fork", este proceso tiene la tarea de 
 eliminar las reservaciones que hayan expirado. 
